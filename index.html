@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yapping Space - Enjoy ur Area</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -27,6 +27,8 @@
                 <i class="fa-solid fa-magnifying-glass" style="color: #8a8894;"></i>
                 <input type="text" id="search-input" placeholder="Cari yappingan atau user...">
             </div>
+            <div id="search-results"></div>
+            
             <div id="quotes-feed">
                 <p style="text-align:center; color:#8a8894; margin-top:20px;">Memuat kata-kata...</p>
             </div>
@@ -41,11 +43,11 @@
                     
                     <div style="margin-bottom:15px; display:flex; flex-direction:column; gap:10px; text-align:left;">
                         <div>
-                            <label style="font-size:0.85rem; color:#8a8894; display:block; margin-bottom:5px;"><i class="fa-solid fa-image" style="color:#bf55ec; margin-right:5px;"></i> Lampirkan Gambar (Optional)</label>
+                            <label style="font-size:0.85rem; color:#8a8894; display:block; margin-bottom:5px;"><i class="fa-solid fa-image" style="color:#bf55ec; margin-right:5px;"></i> Lampirkan Gambar</label>
                             <input type="file" id="quote-image" accept="image/*" style="width:100%; background:rgba(255,255,255,0.05); border:1px dashed var(--glass-border); padding:10px; border-radius:10px; color:#fff; cursor:pointer;">
                         </div>
                         <div>
-                            <label style="font-size:0.85rem; color:#8a8894; display:block; margin-bottom:5px;"><i class="fa-solid fa-microphone" style="color:#00f2fe; margin-right:5px;"></i> Lampirkan Rekaman Audio / VN (Optional)</label>
+                            <label style="font-size:0.85rem; color:#8a8894; display:block; margin-bottom:5px;"><i class="fa-solid fa-microphone" style="color:#00f2fe; margin-right:5px;"></i> Lampirkan Audio / VN</label>
                             <input type="file" id="quote-audio" accept="audio/*" style="width:100%; background:rgba(255,255,255,0.05); border:1px dashed var(--glass-border); padding:10px; border-radius:10px; color:#fff; cursor:pointer;">
                         </div>
                     </div>
@@ -80,20 +82,18 @@
         <div id="page-settings" class="page">
             <div class="glass-card">
                 <h2 style="margin-bottom:20px;"><i class="fa-solid fa-arrow-left" onclick="window.switchPage('profile')" style="cursor:pointer; margin-right:10px;"></i> Edit Profil</h2>
-                
                 <div class="setting-item">
                     <label>Foto Profil Baru</label>
                     <input type="file" id="edit-avatar-input" accept="image/*">
                 </div>
                 <div class="setting-item">
-                    <label>Nama Tampilan / Display Name</label>
+                    <label>Nama Tampilan</label>
                     <input type="text" id="edit-username" placeholder="Masukkan nama baru...">
                 </div>
                 <div class="setting-item">
                     <label>Bio Singkat</label>
                     <textarea id="edit-bio" style="height:80px;" placeholder="Tulis bio kamu..."></textarea>
                 </div>
-                
                 <button class="btn-primary" onclick="window.saveProfile()">Simpan Perubahan</button>
             </div>
         </div>
@@ -132,14 +132,12 @@
         <button class="fab-btn" onclick="window.switchPage('upload')">
             <i class="fa-solid fa-pen-nib"></i>
         </button>
-
     </div> 
 
     <div id="share-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <div class="glass-card" style="padding:15px; text-align:center; position:relative;">
-                <h3 style="margin-bottom:10px;">Preview Share Card</h3>
-                
+            <div class="glass-card" style="padding:15px; text-align:center;">
+                <h3>Sudah Kah Yappingnya?</h3>
                 <div id="instagram-card-preview" class="ig-card-design">
                     <div class="ig-logo-watermark">YAPPING SPACE</div>
                     <div id="ig-text">"Keluaran Keluh Kesah Terbaikmu Di Sini."</div>
@@ -148,54 +146,40 @@
                         <span id="ig-user">@anonymous</span>
                     </div>
                 </div>
-
                 <div style="display:flex; gap:10px; margin-top:15px;">
-                    <button class="btn-primary" style="margin:0;" onclick="window.downloadAsImage()">Unduh Gambar</button>
-                    <button class="btn-secondary" style="background:#ff4d4d; border:none;" onclick="window.closeModal()">Batal</button>
+                    <button class="btn-primary" onclick="window.downloadAsImage()">Unduh</button>
+                    <button class="btn-secondary" style="background:#ff4d4d;" onclick="window.closeModal()">Batal</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- MODAL DELETE CUSTOM -->
-<div id="delete-modal" class="modal-overlay hidden">
-    <div class="modal-content" style="max-width: 350px;">
-        <div class="glass-card" style="padding: 25px; text-align: center; border: 1px solid rgba(255, 77, 77, 0.3);">
-            <div style="font-size: 2.5rem; color: #ff4d4d; margin-bottom: 15px;">
-                <i class="fa-solid fa-triangle-exclamation animate-bounce"></i>
-            </div>
-            <h3 style="margin-bottom: 10px; color: #fff; font-weight: 700;">Hapus Yappingan?</h3>
-            <p style="color: #8a8894; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.4;">
-                Kata-kata yang sudah terlanjur basah ini tidak akan bisa dikembalikan lagi, bro. yakin?
-            </p>
-            
-            <div style="display: flex; gap: 10px;">
-                <button id="confirm-delete-btn" class="btn-primary" style="margin:0; background: #ff4d4d; border: none; box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);">
-                    Ya, Hapus
-                </button>
-                <button class="btn-secondary" style="margin:0; background: rgba(255,255,255,0.1);" onclick="window.closeDeleteModal()">
-                    Batal
-                </button>
+
+    <div id="delete-modal" class="modal-overlay hidden">
+        <div class="modal-content" style="max-width: 350px;">
+            <div class="glass-card" style="padding: 25px; text-align: center;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: #ff4d4d;"></i>
+                <h3>Hapus Yappingan?</h3>
+                <p>Yakin ingin menghapus ini?</p>
+                <div style="display: flex; gap: 10px;">
+                    <button id="confirm-delete-btn" class="btn-primary" style="background:#ff4d4d;">Ya, Hapus</button>
+                    <button class="btn-secondary" onclick="window.closeDeleteModal()">Batal</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Custom Modal QOTD -->
-<div id="qotd-modal" class="modal-overlay hidden">
-    <div class="glass-card" style="width: 85%; max-width: 400px; text-align: center; border: 1px solid var(--neon-blue);">
-        <div style="font-size: 2rem; margin-bottom: 10px;">✨</div>
-        <h3 style="margin-bottom: 15px; color: var(--neon-blue);">Quote of the Day</h3>
-        <p id="qotd-text" style="font-size: 1.1rem; font-style: italic; margin-bottom: 25px; line-height: 1.6;">
-            "Keluarkan keluh kesahmu tanpa batas di Yapping Space!"
-        </p>
-        <button class="btn-primary" onclick="window.closeQOTD()">Oke, Mengerti</button>
+
+    <div id="qotd-modal" class="modal-overlay hidden">
+        <div class="glass-card" style="width: 85%; max-width: 400px; text-align: center;">
+            <h3>✨ Quote of the Day</h3>
+            <p>"Keluarkan keluh kesahmu tanpa batas di Yapping Space!"</p>
+            <button class="btn-primary" onclick="window.closeQOTD()">Oke</button>
+        </div>
     </div>
-</div>
-
-
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
-</html>
+    </html>
+    
